@@ -99,9 +99,9 @@ def checkErrors(DEBUG=False):
     print('\n=====')
     print('ERROR PROPAGATION')
     print('=====')
-    text = bytes(
-        'Mam tu 80 znakow liczac spacje to jest dokladnie 5 razy rozmiar bloku szyfru AES', 'utf-8')
-    # text = get_random_bytes(16*3)
+    # text = bytes(
+        # 'Mam tu 80 znakow liczac spacje to jest dokladnie 5 razy rozmiar bloku szyfru AES', 'utf-8')
+    text = get_random_bytes(16*3)
     if DEBUG:
         print('Initial message:\n', text, '\n')
     for key, mode in modes.items():

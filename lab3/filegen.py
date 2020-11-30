@@ -8,18 +8,23 @@ MEDIUM = SMALL * 200
 BIG = SMALL * 400
 
 text = ''
+print('small')
+for _ in range(SMALL):
+        text += choice(ascii_letters)
+    
+with open('small.txt', 'w+') as file:
+    file.write(text)
 
-
-def writeToFile(size, filename):
-    global text
-    for _ in range(size):
+print('medium')
+for _ in range(MEDIUM - SMALL):
         text += choice(ascii_letters)
 
-    with open(filename + '.txt', 'w+') as file:
-        file.write(text)
+with open('medium.txt', 'w+') as file:
+    file.write(text)
 
+print('big')
+for _ in range(BIG - MEDIUM):
+        text += choice(ascii_letters)
 
-writeToFile(SMALL, 'small')
-writeToFile(MEDIUM, 'medium')
-writeToFile(BIG, 'big')
-text = ''
+with open('big.txt', 'w+') as file:
+    file.write(text)
