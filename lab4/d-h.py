@@ -3,7 +3,7 @@ from math import gcd
 from sympy import nextprime, isprime, is_primitive_root
 
 
-BITS = 8
+BITS = 32
 
 
 class Person:
@@ -13,10 +13,10 @@ class Person:
         self.privKey = getrandbits(BITS)
 
     def calculateX(self):
-        return (self.g**self.privKey) % self.n
+        return pow(self.g, self.privKey, self.n)
 
     def getSecret(self, Y):
-        return (Y**self.privKey) % self.n
+        return pow(Y, self.privKey, self.n)
 
 
 def findPrimitiveRoot(modulo):

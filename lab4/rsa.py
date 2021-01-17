@@ -4,7 +4,7 @@ from string import ascii_letters
 from sys import argv
 from math import gcd
 
-TEST = True
+TEST = False
 
 
 def chunkString(string, n):
@@ -15,7 +15,11 @@ def chunkString(string, n):
             res.append(char)
         elif int(temp + char) > n:
             res.append(temp)
-            temp = char
+            if char == '0':
+                res.append(char)
+                temp = ''
+            else:
+                temp = char
         else:
             temp += char
 
@@ -24,7 +28,7 @@ def chunkString(string, n):
     return res
 
 
-def getPrime(a=1000, b=9972):
+def getPrime(a=1000, b = 9972):
     return nextprime(randrange(a, b))
 
 
@@ -34,38 +38,41 @@ def isCoprime(x, y):
 
 def getCoprime(x):
     while True:
-        y = getPrime(0, 100)
+        y = getPrime()
         if isCoprime(x, y):
             break
     return y
 
 
 def parseChunk(message, key):
-    # print(message, key)
-    return (message**key[0]) % key[1]
+    return pow(message, key[0], key[1])
 
 
 def encrypt(message, key):
     chunks = chunkString(str(message), key[1])
-    # chunks = list(str(message))
-    return [parseChunk(int(chunk), key) for chunk in chunks]
+    return [pow(int(chunk), key[0], key[1]) for chunk in chunks]
 
 
 def decrypt(chunks, key):
-    return ''.join([str(parseChunk(chunk, key)) for chunk in chunks])
+    return ''.join([str(pow(chunk, key[0], key[1])) for chunk in chunks])
 
 
 def getKeys():
-    p, q = (47, 71) if TEST else (getPrime(), getPrime())
+    # p, q = (47, 71) if TEST else (getPrime(), getPrime())
+    p, q, r = (getPrime(), getPrime(), getPrime())
 
-    n = p * q
-    phi = (p - 1) * (q - 1)
+    # n = p * q
+    n = p * q * r
+    # n = p * p
+    # phi = (p - 1) * (q - 1)
+    phi = (p - 1) * (q - 1) * (r - 1)
+    # phi = (p - 1) * (p - 1)
 
     e = 79 if TEST else getCoprime(phi)
     d = mod_inverse(e, phi)
 
     print('p:', p, '\tq:', q)
-    print('n:', n, 'phi:', phi)
+    print('n:', n, '\tphi:', phi)
     print('e:', e, '\td:', d)
 
     return (e, n), (d, n)
@@ -79,13 +86,13 @@ if __name__ == "__main__":
     publicKey, privateKey = getKeys()
     print('\nPublic Key:', publicKey, '\nPrivate Key:', privateKey)
     message = 6882326879666683 if TEST else generateMessage()
-    print('\nMessage:', message)
+    print('\nMessage:\t', message)
 
     encryptedChunks = encrypt(message, publicKey)
     # print('Encrypted message:', encryptedChunks)
 
     decryptedMsg = decrypt(encryptedChunks, privateKey)
-    print('Decrypted message:', decryptedMsg)
+    print('Decrypted:\t', decryptedMsg)
 
     print('Message decrypted correctly' if str(message) ==
           decryptedMsg else "ERROR: Result incorrect")
