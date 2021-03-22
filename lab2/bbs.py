@@ -36,8 +36,8 @@ def findGoodPrime(bits=512):
 
 
 def getBlumNumber():
-    # return findGoodPrime() * findGoodPrime()
-    return 7 * 11
+    return findGoodPrime() * findGoodPrime()
+
 
 def gcd(p, q):
     while q != 0:

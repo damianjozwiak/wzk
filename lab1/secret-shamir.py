@@ -46,8 +46,10 @@ def split(secret, n, t):
     print("Shares:\t\t\t\t", shares)
     return p, shares
 
+
 def invertedMod():
     pass
+
 
 def combine(p, shares):
     print("Shares used:\t\t\t", shares)
@@ -70,5 +72,3 @@ if __name__ == "__main__":
     p, shares = split(secret, n, t)
 
     print("Combined secret:\t\t", combine(p, sample(shares, t)))
-    # shares.pop(2)
-    # print("Combined secret:\t\t", combine(p, shares))

@@ -28,7 +28,7 @@ def chunkString(string, n):
     return res
 
 
-def getPrime(a=1000, b = 9972):
+def getPrime(a=1000, b=9972):
     return nextprime(randrange(a, b))
 
 
@@ -58,15 +58,10 @@ def decrypt(chunks, key):
 
 
 def getKeys():
-    # p, q = (47, 71) if TEST else (getPrime(), getPrime())
-    p, q, r = (getPrime(), getPrime(), getPrime())
+    p, q = (47, 71) if TEST else (getPrime(), getPrime())
 
-    # n = p * q
-    n = p * q * r
-    # n = p * p
-    # phi = (p - 1) * (q - 1)
-    phi = (p - 1) * (q - 1) * (r - 1)
-    # phi = (p - 1) * (p - 1)
+    n = p * q
+    phi = (p - 1) * (q - 1)
 
     e = 79 if TEST else getCoprime(phi)
     d = mod_inverse(e, phi)
@@ -89,7 +84,7 @@ if __name__ == "__main__":
     print('\nMessage:\t', message)
 
     encryptedChunks = encrypt(message, publicKey)
-    # print('Encrypted message:', encryptedChunks)
+    print('Encrypted message:', encryptedChunks)
 
     decryptedMsg = decrypt(encryptedChunks, privateKey)
     print('Decrypted:\t', decryptedMsg)
